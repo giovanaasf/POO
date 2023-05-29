@@ -1,0 +1,52 @@
+CREATE TABLE Cliente 
+(   CPF varchar2(11) PRIMARY KEY,
+    Nome varchar2(60),
+    Endereco varchar2(60),
+    Cidade varchar2(50),
+    CEP varchar2(8),
+    UF varchar2(2),
+    TelefoneDDD varchar2(3),
+    TelefoneNumero varchar2(9),
+    LimiteCredito NUMBER(8,2),
+    LimiteDisponivel NUMBER(8,2)
+);
+
+CREATE TABLE Vendedor (
+    CPF varchar2(11) PRIMARY KEY,
+    Nome varchar2(60),
+    Endereco varchar2(60),
+    Cidade varchar2(50),
+    CEP varchar2(8),
+    UF varchar2(2),
+    TelefoneDDD varchar2(3),
+    TelefoneNumero varchar2(9),
+    SalarioBase NUMBER(8,2),
+    Comissao NUMBER(8,2)
+);
+
+CREATE TABLE Pedido 
+(   Numero NUMBER(6) PRIMARY KEY,
+    CPFCliente VARCHAR2(11) ,
+    CPFVendedor VARCHAR2(11),
+    Status char(1) check (Status in ('T', 'F')),	
+    DataPedido DATE,
+    DataPagto DATE,
+    FOREIGN KEY (CPFCliente) REFERENCES Cliente,
+    FOREIGN KEY (CPFVendedor) REFERENCES Vendedor
+);
+
+CREATE TABLE Produto (
+    CodigoProduto NUMBER(6) PRIMARY KEY,
+    Descricao VARCHAR2(80),
+    QtdeDisponivel NUMBER(6),
+    PrecoUnit NUMBER(6,2),
+    EstoqueMinimo NUMBER(6)   
+);
+
+CREATE TABLE ItemPedido 
+(   NumeroPedido NUMBER(6) ,
+    CodigoProduto NUMBER(6),
+    QtVendida NUMBER(6),
+    FOREIGN KEY (NumeroPedido) REFERENCES Pedido,
+    FOREIGN KEY (CodigoProduto) REFERENCES Produto
+);
